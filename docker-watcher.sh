@@ -171,8 +171,8 @@ do
   fi
 
   if [ -z "$observable_dockers" ]; then
-    echo "Error docker-watcher: the provided network does not exist or has no containers running."
-    exit 1
+    echo -e "${red}Error docker-watcher: the provided network does not exist or has no containers running, retrying.${nc}"
+    continue
   fi
 
   for container in `echo $observable_dockers`; do
