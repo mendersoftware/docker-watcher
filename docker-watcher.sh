@@ -193,7 +193,7 @@ do
         analyzeTraffic $container $host_iface_id $output $time_period $rotate_logs $container_ip $net
       else
         # Find the host interface that connects to the network the docker is running in.
-        for host_iface in `netstat -i | grep br | awk '{ print $1 }'`; do
+        for host_iface in `ifconfig | grep br- | awk '{print substr($1, 1, length($1)-1)}'`; do
           if [[ "$host_iface_id" == *$(echo $host_iface | awk -F'-' '{ print $2 }')* ]]; then
             analyzeTraffic $container $host_iface $output $time_period $rotate_logs $container_ip $net
           fi
