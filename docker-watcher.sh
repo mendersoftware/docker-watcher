@@ -110,7 +110,7 @@ function containsElement {
 
 # Call the cleanup function when the script is stopped via any of those two signals
 # C-c == SIGINT.
-trap cleanup SIGINT SIGKILL
+trap cleanup SIGINT SIGKILL TERM
 
 
 function analyzeTraffic {
