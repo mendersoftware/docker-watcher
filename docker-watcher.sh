@@ -31,7 +31,7 @@ if [ "$#" -lt 4 ]; then
 fi
 
 
-while [ "$#" -gt 1 ];
+while [ "$#" -gt 0 ];
   do
   key="$1"
 
