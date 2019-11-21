@@ -65,6 +65,12 @@ while [ "$#" -gt 1 ];
       --default)
       default=YES
       ;;
+
+      --no-color)
+      red=''
+      green=''
+      nc=''
+      ;;
     *)
     ;;
   esac
