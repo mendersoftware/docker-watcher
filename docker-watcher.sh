@@ -62,10 +62,6 @@ while [ "$#" -gt 0 ];
       shift
       ;;
 
-      --default)
-      default=YES
-      ;;
-
       --no-color)
       red=''
       green=''
