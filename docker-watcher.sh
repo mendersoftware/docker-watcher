@@ -31,7 +31,7 @@ if [ "$#" -lt 4 ]; then
 fi
 
 
-while [ "$#" -gt 1 ];
+while [ "$#" -gt 0 ];
   do
   key="$1"
 
@@ -62,8 +62,10 @@ while [ "$#" -gt 1 ];
       shift
       ;;
 
-      --default)
-      default=YES
+      --no-color)
+      red=''
+      green=''
+      nc=''
       ;;
     *)
     ;;
@@ -110,7 +112,7 @@ function containsElement {
 
 # Call the cleanup function when the script is stopped via any of those two signals
 # C-c == SIGINT.
-trap cleanup SIGINT SIGKILL
+trap cleanup SIGINT SIGKILL TERM
 
 
 function analyzeTraffic {
@@ -171,8 +173,8 @@ do
   fi
 
   if [ -z "$observable_dockers" ]; then
-    echo "Error docker-watcher: the provided network does not exist or has no containers running."
-    exit 1
+    echo -e "${red}Error docker-watcher: the provided network does not exist or has no containers running, retrying.${nc}"
+    continue
   fi
 
   for container in `echo $observable_dockers`; do
@@ -193,7 +195,7 @@ do
         analyzeTraffic $container $host_iface_id $output $time_period $rotate_logs $container_ip $net
       else
         # Find the host interface that connects to the network the docker is running in.
-        for host_iface in `netstat -i | grep br | awk '{ print $1 }'`; do
+        for host_iface in `ifconfig | grep br- | awk '{print substr($1, 1, length($1)-1)}'`; do
           if [[ "$host_iface_id" == *$(echo $host_iface | awk -F'-' '{ print $2 }')* ]]; then
             analyzeTraffic $container $host_iface $output $time_period $rotate_logs $container_ip $net
           fi
